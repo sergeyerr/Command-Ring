@@ -15,25 +15,38 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 
+
 @Mod.EventBusSubscriber(value = Side.SERVER, modid = "cring")
 public class ServerEventsHandler {
+    public static String CommandOnUse;
+    public static String CommandOnEndOfCooldown;
+    public static String MessageOnCooldown;
+    public static String MessageOnUse;
     @SubscribeEvent
     public static void OnRightClick(PlayerInteractEvent.RightClickItem event) {
         ItemStack it = event.getEntityPlayer().getHeldItemMainhand();
         MinecraftServer server = event.getEntityPlayer().world.getMinecraftServer();
+        EntityPlayer player = event.getEntityPlayer();
         if (it != null && it.getItem() == ItemsRegister.Ring) {
             RingCooldownStats ringStats = RingContainer.RingList.get(it.getMetadata());
             if (ringStats.CanBeUsed == true) {
-                server.commandManager.executeCommand(server, "say yeah, it's work");
+                player.sendMessage(new TextComponentString(MessageOnUse.replace("%p", player.getName())));
+                server.commandManager.executeCommand(server, CommandOnUse.replace("%p", player.getName()));
                 ringStats.CanBeUsed = false;
                 ringStats.LastTimeofUsage = System.currentTimeMillis();
             } else {
-                server.commandManager.executeCommand(server, "say wait %t sec".replace("%t", Long.toString((RingContainer.CoolDownOfUsageMS - System.currentTimeMillis() + ringStats.LastTimeofUsage) / 1000)));
+                Long leftSec = (RingContainer.CoolDownOfUsageMS - System.currentTimeMillis() + ringStats.LastTimeofUsage) / 1000;
+                Long hours = leftSec / 3600;
+                leftSec /= 3600;
+                Long minutes = leftSec / 60;
+                leftSec /= 60;
+                server.commandManager.executeCommand(server, MessageOnUse.replace("%h", Long.toString(hours)).replace("%m", Long.toString(minutes)).replace("%s", Long.toString(leftSec)));
             }
         }
     }
@@ -49,4 +62,6 @@ public class ServerEventsHandler {
             }
         }
     }
+
+
 }
