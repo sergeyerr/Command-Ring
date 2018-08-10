@@ -3,9 +3,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import sergeyer.cring.ItemsRegister;
-import sergeyer.cring.RingContainer;
-import sergeyer.cring.RingCooldownStats;
-import sergeyer.cring.RingItem;
 
 public class CommonProxy {
 
@@ -20,7 +17,6 @@ public class CommonProxy {
     {
         // Инициализация
         System.out.println("\u001B[32m" + "[Starting Index Mod INITIALIZATION]" + "\u001B[0m");
-
     }
 
     public void postInit(FMLPostInitializationEvent event)

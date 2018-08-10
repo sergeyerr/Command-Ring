@@ -3,6 +3,7 @@ package sergeyer.cring.proxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import sergeyer.cring.ItemsRegister;
 
 public class ClientProxy extends CommonProxy
 {
@@ -16,7 +17,7 @@ public class ClientProxy extends CommonProxy
     public void init(FMLInitializationEvent event)
     {
         super.init(event);
-        //ItemsRegister.registerRender(); перемещено в ClientEventsHandler
+        ItemsRegister.registerRender();
     }
 
     @Override
