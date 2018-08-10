@@ -26,7 +26,11 @@ public class RingItem extends Item {
             }
         }
     }
-    
+
+    @Override
+    public String getUnlocalizedName(ItemStack stack) {
+        return super.getUnlocalizedName() + "." + stack.getMetadata();
+    }
 }
 
 
