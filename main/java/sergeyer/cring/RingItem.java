@@ -26,6 +26,7 @@ public class RingItem extends Item {
             }
         }
     }
+    
 }
 
 

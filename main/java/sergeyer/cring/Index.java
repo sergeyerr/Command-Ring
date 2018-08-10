@@ -34,6 +34,8 @@ public class Index {
     public void init(FMLInitializationEvent event)
     {
         proxy.init(event);
+        for (int i = 0; i < RingContainer.RingCount; i++)
+            RingContainer.RingList.add(new RingCooldownStats());
     }
 
     @EventHandler

@@ -40,10 +40,6 @@ public class ServerEventsHandler {
 
     @SubscribeEvent
     public static void OnUpdate(TickEvent.WorldTickEvent event) {
-        if (RingContainer.RingList.size() == 0) {
-            for (int i = 0; i < RingContainer.RingCount; i++)
-                RingContainer.RingList.add(new RingCooldownStats());
-        }  //МНЕ ЭТО ОЧЕНЬ НЕ НРАВИТСЯ, Я СОЖАЛЕЮ О СВОЁМ ПОСТУПКЕ, КАК ИСПРАВИТЬ
         for (RingCooldownStats ring :
                 RingContainer.RingList) {
             if (ring.CanBeUsed == false) {
