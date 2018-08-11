@@ -21,13 +21,13 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 
-
 @Mod.EventBusSubscriber(value = Side.SERVER, modid = "cring")
 public class ServerEventsHandler {
     public static String CommandOnUse;
     public static String CommandOnEndOfCooldown;
     public static String MessageOnCooldown;
     public static String MessageOnUse;
+
     @SubscribeEvent
     public static void OnRightClick(PlayerInteractEvent.RightClickItem event) {
         ItemStack it = event.getEntityPlayer().getHeldItemMainhand();
@@ -40,13 +40,14 @@ public class ServerEventsHandler {
                 server.commandManager.executeCommand(server, CommandOnUse.replace("%p", player.getName()));
                 ringStats.CanBeUsed = false;
                 ringStats.LastTimeofUsage = System.currentTimeMillis();
+                ringStats.UserName = player.getName();
             } else {
                 Long leftSec = (RingContainer.CoolDownOfUsageMS - System.currentTimeMillis() + ringStats.LastTimeofUsage) / 1000;
                 Long hours = leftSec / 3600;
-                leftSec /= 3600;
+                leftSec %= 3600;
                 Long minutes = leftSec / 60;
-                leftSec /= 60;
-                server.commandManager.executeCommand(server, MessageOnUse.replace("%h", Long.toString(hours)).replace("%m", Long.toString(minutes)).replace("%s", Long.toString(leftSec)));
+                leftSec %= 60;
+                player.sendMessage(new TextComponentString(MessageOnCooldown.replace("%h", Long.toString(hours)).replace("%m", Long.toString(minutes)).replace("%s", Long.toString(leftSec))));
             }
         }
     }
@@ -58,10 +59,13 @@ public class ServerEventsHandler {
             if (ring.CanBeUsed == false) {
                 if (System.currentTimeMillis() - ring.LastTimeofUsage >= RingContainer.CoolDownOfUsageMS) {
                     ring.CanBeUsed = true;
+                    MinecraftServer server = event.world.getMinecraftServer();
+                    if (ring.UserName == null) {
+                        server.commandManager.executeCommand(server, CommandOnEndOfCooldown.replace("%p", ring.UserName));
+                    }
                 }
             }
         }
     }
-
-
 }
+
