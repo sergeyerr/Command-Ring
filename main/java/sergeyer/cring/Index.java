@@ -9,6 +9,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import sergeyer.cring.proxy.CommonProxy;
 
+import java.io.IOException;
+
 
 @Mod(modid = Index.MODID, version = Index.VERSION)
 
@@ -26,8 +28,7 @@ public class Index {
     public static CommonProxy proxy;
 
     @EventHandler
-    public static void preInit(FMLPreInitializationEvent event)
-    {
+    public static void preInit(FMLPreInitializationEvent event) throws IOException {
         proxy.preInit(event);
     }
 
@@ -35,8 +36,6 @@ public class Index {
     public void init(FMLInitializationEvent event)
     {
         proxy.init(event);
-        for (int i = 0; i < RingContainer.RingCount; i++)
-            RingContainer.RingList.add(new RingCooldownStats());
     }
 
     @EventHandler

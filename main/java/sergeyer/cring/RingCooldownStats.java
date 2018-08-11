@@ -7,5 +7,6 @@ public class RingCooldownStats {
     public RingCooldownStats() {
         CanBeUsed = true;
         LastTimeofUsage = 0;
+        UserName = "none";
     }
 }

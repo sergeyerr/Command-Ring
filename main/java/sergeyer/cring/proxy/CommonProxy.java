@@ -7,10 +7,11 @@ import sergeyer.cring.RingContainer;
 import sergeyer.cring.RingCooldownStats;
 import sergeyer.cring.RingItem;
 
+import java.io.IOException;
+
 public class CommonProxy {
 
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         System.out.println("\u001B[32m" + "[Starting Index Mod PRE-INITIALIZATION]" + "\u001B[0m");
         ItemsRegister.register();
     }

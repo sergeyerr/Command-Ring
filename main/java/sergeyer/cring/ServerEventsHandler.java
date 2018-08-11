@@ -1,5 +1,6 @@
 package sergeyer.cring;
 
+import com.google.gson.Gson;
 import ibxm.Player;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.command.ICommandManager;
@@ -19,6 +20,8 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
+
+import java.io.IOException;
 
 
 @Mod.EventBusSubscriber(value = Side.SERVER, modid = "cring")
@@ -41,6 +44,13 @@ public class ServerEventsHandler {
                 ringStats.CanBeUsed = false;
                 ringStats.LastTimeofUsage = System.currentTimeMillis();
                 ringStats.UserName = player.getName();
+                try {
+                    RingContainer.Save();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ;
+
             } else {
                 Long leftSec = (RingContainer.CoolDownOfUsageMS - System.currentTimeMillis() + ringStats.LastTimeofUsage) / 1000;
                 Long hours = leftSec / 3600;
@@ -63,9 +73,15 @@ public class ServerEventsHandler {
                     if (ring.UserName == null) {
                         server.commandManager.executeCommand(server, CommandOnEndOfCooldown.replace("%p", ring.UserName));
                     }
+                    try {
+                        RingContainer.Save();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
     }
+
 }
 
