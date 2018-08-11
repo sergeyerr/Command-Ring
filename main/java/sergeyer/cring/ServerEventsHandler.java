@@ -39,7 +39,7 @@ public class ServerEventsHandler {
         if (it != null && it.getItem() == ItemsRegister.Ring) {
             RingCooldownStats ringStats = RingContainer.RingList.get(it.getMetadata());
             if (ringStats.CanBeUsed == true) {
-                player.sendMessage(new TextComponentString(MessageOnUse.replace("%p", player.getName())));
+                server.commandManager.executeCommand(server, MessageOnUse.replace("%p", player.getName()));
                 server.commandManager.executeCommand(server, CommandOnUse.replace("%p", player.getName()));
                 ringStats.CanBeUsed = false;
                 ringStats.LastTimeofUsage = System.currentTimeMillis();
