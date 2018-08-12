@@ -7,6 +7,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -22,7 +23,8 @@ public class RingContainer {
             try (FileInputStream inputStream = new FileInputStream("config/commandringsave/save.json")) {
                 tmp = IOUtils.toString(inputStream);
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                RingContainer.RingList = gson.fromJson(tmp, RingContainer.RingList.getClass());
+                RingCooldownStats[] arr = gson.fromJson(tmp,  RingCooldownStats[].class);
+                RingContainer.RingList = Arrays.asList(arr);
             }
 
         } else {
